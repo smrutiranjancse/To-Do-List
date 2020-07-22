@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+	{% load static %}
+    	<!-- Required meta tags -->
+    	<meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    	<!-- Bootstrap CSS -->
+    	<title>To Do List</title>
+	<link rel="stylesheet" href="{% static 'todo/main.css' %}">
+    	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	<link rel="icon" type="image/png" href="{% static 'todo/todologo.png' %}">
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  	<a class="navbar-brand" href="{% url 'home' %}">
+	<img src="{% static "todo/todologo.png" %}" width="30" height="30">
+	<span>To Do List</span>
+	</a>
+  	
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    	<span class="navbar-toggler-icon"></span>
+  	</button>
+
+    	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    	<ul class="navbar-nav mr-auto">
+ 	</ul>
+
+    	<form class="form-inline my-2 my-lg-0" method="POST">
+      		{% csrf_token %}
+      		<input class="form-control mr-sm-2" type="search" placeholder="Add item" aria-label="Search" name="item">
+      		<input class="form-control mr-sm-2" type="search" placeholder="Add description" aria-label="Search" name="desc">
+      		<button class="btn btn-outline-light my-2 my-sm-2" type="submit">Add to list</button>
+    	</form>
+  	</div>
+	</nav>
+</br>
+
+<div class="container">
+{% if messages %}
+	{% for i in messages %}
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			{{ i }}
+		</div>
+	{% endfor %}
+{% endif %}
+
+</br>
+
+{% if all_items %}
+	<table class="table table-striped table-bordered">
+		<thead class="thead-dark"'>
+        		<th>Task</th>
+   	        	<th>Description</th>
+       	        	<th>Delete Task</th>
+                </thead>
+	{% for i in all_items %}
+		<tr>
+			<td>{{ i.item }}</td>
+			<td>{{ i.desc }}</td>
+			<td><a href={% url 'delete' i.id %} class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Delete</a></td>
+		</tr>
+	{% endfor %}
+	</table>
+{% endif %}
+
+</div>
+
+</body>
+</html>
